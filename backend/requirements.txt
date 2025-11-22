@@ -3,3 +3,4 @@ Flask-CORS==4.0.0
 opencv-python-headless==4.8.0.74
 numpy<2.0
 Werkzeug==2.3.7
+gunicorn==20.1.0
