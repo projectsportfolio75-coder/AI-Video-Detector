@@ -24,9 +24,12 @@ def _convert_datetime(b: bytes) -> datetime:
 sqlite3.register_adapter(datetime, _adapt_datetime)
 sqlite3.register_converter("DATETIME", _convert_datetime)
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, 'video_analysis.db')
+
 def db_connect():
     return sqlite3.connect(
-        'video_analysis.db',
+        DB_PATH,
         detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
     )
 
@@ -380,10 +383,10 @@ def test_system():
             'system_status': 'Error in components'
         })
 
+# Initialize DB immediately so gunicorn import triggers it
+init_db()
+
 if __name__ == '__main__':
-    # Initialize database
-    init_db()
-    
     print("Starting Advanced AI Video Detector Server...")
     print("Features: Lighting Analysis, Noise Detection, Artifact Detection, Facial Analysis")
     print("Database: Analysis history and statistics enabled")
